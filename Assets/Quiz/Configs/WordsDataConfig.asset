@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff97cd18c4a88d84ba8d3ebf81ac66c0, type: 3}
+  m_Name: WordsDataConfig
+  m_EditorClassIdentifier: 
+  Data:
+  - Name: A
+    Image: {fileID: 4963718625464178563, guid: 7955875fe25826144993ffdd338b2103, type: 3}
+  - Name: B
+    Image: {fileID: 7783457984840754399, guid: 7955875fe25826144993ffdd338b2103, type: 3}
+  - Name: C
+    Image: {fileID: 3234300448368640894, guid: 7955875fe25826144993ffdd338b2103, type: 3}
+  - Name: D
+    Image: {fileID: 7911670913450602933, guid: 7955875fe25826144993ffdd338b2103, type: 3}
+  - Name: F
+    Image: {fileID: -6426668015567183463, guid: 7955875fe25826144993ffdd338b2103, type: 3}
+  - Name: G
+    Image: {fileID: 216406037199867053, guid: 7955875fe25826144993ffdd338b2103, type: 3}
+  - Name: J
+    Image: {fileID: -2756605603065543306, guid: 7955875fe25826144993ffdd338b2103, type: 3}
+  - Name: I
+    Image: {fileID: -3541686595128163680, guid: 7955875fe25826144993ffdd338b2103, type: 3}
+  - Name: E
+    Image: {fileID: 4652326554734856401, guid: 7955875fe25826144993ffdd338b2103, type: 3}
+  - Name: H
+    Image: {fileID: -8235857483100294123, guid: 7955875fe25826144993ffdd338b2103, type: 3}
+  - Name: K
+    Image: {fileID: -1127063002332224934, guid: 7955875fe25826144993ffdd338b2103, type: 3}
+  - Name: L
+    Image: {fileID: -5901097786099144959, guid: 7955875fe25826144993ffdd338b2103, type: 3}
+  - Name: M
+    Image: {fileID: 3295844289267200183, guid: 7955875fe25826144993ffdd338b2103, type: 3}
