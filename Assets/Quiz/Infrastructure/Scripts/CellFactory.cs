@@ -2,13 +2,18 @@ using UnityEngine;
 
 public class CellFactory : MonoBehaviour, ICellFactory
 {
-    public GameObject CreateCell()
+    [SerializeField] private GameObject _cellPrefab;
+    
+    public GameObject CreateCell(Transform parent, Sprite targetImage)
     {
-        return null;
+        GameObject cell = Instantiate(_cellPrefab, parent);
+        cell.GetComponent<CellView>().Init(targetImage);
+        
+        return cell;
     }
 }
 
 public interface ICellFactory
 {
-    public GameObject CreateCell();
+    public GameObject CreateCell(Transform parent, Sprite targetImage);
 }

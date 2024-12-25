@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff97cd18c4a88d84ba8d3ebf81ac66c0, type: 3}
   m_Name: NumbersDataConfig
   m_EditorClassIdentifier: 
-  Data:
+  _data:
   - Name: 1
     Image: {fileID: 1422184923334757970, guid: 89b379b9132057349a552d0496088b5b, type: 3}
   - Name: 2

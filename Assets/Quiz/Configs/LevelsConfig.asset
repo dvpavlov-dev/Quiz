@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78658db474dd21040a16adb3e6b99d58, type: 3}
   m_Name: LevelsConfig
   m_EditorClassIdentifier: 
-  Levels:
+  _levels:
   - DataConfig: {fileID: 11400000, guid: 18175030500e44c48afc55c9c02f55bd, type: 2}
     TableWidth: 3
     TableHeight: 1

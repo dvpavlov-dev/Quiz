@@ -5,7 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "LevelsConfig", menuName = "Configs/Levels config")]
 public class LevelsConfigSource : ScriptableObject
 {
-    public List<Level> Levels;
+    [SerializeField] private List<Level> _levels;
+
+    public List<Level> Levels => _levels;
 }
 
 [Serializable]

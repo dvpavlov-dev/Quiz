@@ -5,7 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DataConfig", menuName = "Configs/Data config")]
 public class DataConfigSource : ScriptableObject
 {
-    public List<CellData> Data;
+    [SerializeField] private List<CellData> _data;
+
+    public List<CellData> Data => _data;
 }
 
 [Serializable]
