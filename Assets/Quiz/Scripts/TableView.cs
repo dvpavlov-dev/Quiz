@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ModestTree;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -7,7 +8,7 @@ using Random = System.Random;
 
 public class TableView : MonoBehaviour
 {
-    public Action<string> SelectedCell { get; set; }
+    public Action<CellView> SelectedCell { get; set; }
     
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private GridLayoutGroup _gridLayout;
@@ -24,7 +25,7 @@ public class TableView : MonoBehaviour
         _cellFactory = cellFactory;
     }
     
-    public void CreateTable(int width, int height, DataConfigSource dataConfig)
+    public void CreateTable(int width, int height, DataConfigSource dataConfig, bool isStartGame)
     {
         _dataConfig = dataConfig;
         _rectTransform.sizeDelta = new Vector2(_gridLayout.cellSize.x * width, _gridLayout.cellSize.y * height);
@@ -39,7 +40,7 @@ public class TableView : MonoBehaviour
             if (!_usedIndexes.Contains(generateIndex))
             {
                 _usedIndexes.Add(generateIndex);
-                CreateCell(dataConfig, generateIndex);
+                CreateCell(dataConfig, generateIndex, isStartGame);
                 i++;
             }
         }
@@ -53,14 +54,19 @@ public class TableView : MonoBehaviour
         return _dataConfig.Data[_usedIndexes[generateIndex]].Name;
     }
     
-    private void CreateCell(DataConfigSource dataConfig, int generateIndex)
+    private void CreateCell(DataConfigSource dataConfig, int generateIndex, bool isShowAnimationNeeded)
     {
-        GameObject cell = _cellFactory.CreateCell(this, gameObject.transform, dataConfig.Data[generateIndex]);
+        GameObject cell = _cellFactory.CreateCell(this, gameObject.transform, dataConfig.Data[generateIndex], _gridLayout.cellSize, isShowAnimationNeeded);
         _cells.Add(cell);
     }
 
     public void ClearTable()
     {
+        if (_cells.IsEmpty())
+        {
+            return;
+        }
+        
         foreach (GameObject cell in _cells)
         {
             Destroy(cell);
@@ -71,6 +77,6 @@ public class TableView : MonoBehaviour
 
     public void OnSelectedCell(CellView cell)
     {
-        SelectedCell?.Invoke(cell.Id);
+        SelectedCell?.Invoke(cell);
     }
 }

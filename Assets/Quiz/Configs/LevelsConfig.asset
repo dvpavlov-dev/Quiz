@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: LevelsConfig
   m_EditorClassIdentifier: 
   _levels:
-  - DataConfig: {fileID: 11400000, guid: 18175030500e44c48afc55c9c02f55bd, type: 2}
+  - DataConfig: {fileID: 11400000, guid: a01bc296ad3dd8c4fb3f4bd4392067c8, type: 2}
     TableWidth: 3
     TableHeight: 1
   - DataConfig: {fileID: 11400000, guid: a01bc296ad3dd8c4fb3f4bd4392067c8, type: 2}
     TableWidth: 3
     TableHeight: 2
-  - DataConfig: {fileID: 11400000, guid: 18175030500e44c48afc55c9c02f55bd, type: 2}
+  - DataConfig: {fileID: 11400000, guid: a01bc296ad3dd8c4fb3f4bd4392067c8, type: 2}
     TableWidth: 3
     TableHeight: 3

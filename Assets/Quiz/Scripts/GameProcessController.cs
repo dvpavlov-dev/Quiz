@@ -25,18 +25,25 @@ public class GameProcessController : MonoBehaviour, IGameProcess
         _config = config;
     }
 
-    public void StartLevel(int levelIndex)
+    public void InitGameProcess()
+    {
+        _tableView.ClearTable();
+    }
+
+    public void StartLevel(int levelIndex, bool isStartGame)
     {
         _currentLevel = levelIndex;
         Level currentLevel = _config.Levels[_currentLevel];
 
-        InitTableView(currentLevel);
+        InitTableView(currentLevel, isStartGame);
         GeneratedRightAnswer();
+        
+        _userInterfaceController.SetTitle(_rightAnswer, isStartGame);
     }
     
-    private void InitTableView(Level currentLevel)
+    private void InitTableView(Level currentLevel, bool isStartGame)
     {
-        _tableView.CreateTable(currentLevel.TableWidth, currentLevel.TableHeight, currentLevel.DataConfig);
+        _tableView.CreateTable(currentLevel.TableWidth, currentLevel.TableHeight, currentLevel.DataConfig, isStartGame);
         _tableView.SelectedCell = OnSelectedCell;
     }
 
@@ -55,20 +62,23 @@ public class GameProcessController : MonoBehaviour, IGameProcess
         }
         
         _previousRightAnswer.Add(_rightAnswer);
-        _userInterfaceController.SetTitle(_rightAnswer);
     }
 
-    private void OnSelectedCell(string id)
+    private void OnSelectedCell(CellView cell)
     {
-        if (_rightAnswer == id)
+        if (_rightAnswer == cell.Id)
         {
-            EndLevel();
+            cell.CorrectAnswerAnimation(EndLevel);
+            
+        }
+        else
+        {
+            cell.WrongAnswerAnimation();
         }
     }
 
     private void EndLevel()
     {
-        _tableView.ClearTable();
         _currentLevel++;
 
         if (_currentLevel >= _config.Levels.Count)
@@ -79,6 +89,7 @@ public class GameProcessController : MonoBehaviour, IGameProcess
             return;
         }
         
-        StartLevel(_currentLevel);
+        _tableView.ClearTable();
+        StartLevel(_currentLevel, false);
     }
 }

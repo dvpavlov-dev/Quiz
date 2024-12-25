@@ -3,5 +3,6 @@ public interface IGameProcess
 {
     public Action EndLevels { get; set; }
     
-    public void StartLevel(int levelIndex);
+    public void StartLevel(int levelIndex, bool isStartGame);
+    public void InitGameProcess();
 }

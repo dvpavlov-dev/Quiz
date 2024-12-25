@@ -1,3 +1,5 @@
+using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +13,7 @@ public class CellView : MonoBehaviour
     private string _id;
     private TableView _tableView;
 
-    public void Init(TableView tableView, CellData cellData)
+    public void Init(TableView tableView, CellData cellData, Vector2 cellSize, bool isShowAnimationNeeded)
     {
         _tableView = tableView;
         _id = cellData.Name;
@@ -21,21 +23,45 @@ public class CellView : MonoBehaviour
         {
             _targetImage.rectTransform.rotation = Quaternion.Euler(0,0,-90);
         }
+
+        CalcSizeTargetImage(cellData.Image.rect.width, cellData.Image.rect.height);
         
-        _targetImage.rectTransform.sizeDelta = CalcSizeTargetImage(cellData.Image.rect.width, cellData.Image.rect.height);
+        if(isShowAnimationNeeded)
+        {
+            ShowCellAnimation(cellSize);
+        }
     }
-    
+
     public void OnSelectedCell()
     {
         _tableView.OnSelectedCell(this);
     }
 
-    private Vector2 CalcSizeTargetImage(float width, float height)
+    public void CorrectAnswerAnimation(Action endAnimation)
+    {
+        Vector2 cellSize = _targetImage.rectTransform.sizeDelta;
+        _targetImage.rectTransform.sizeDelta = new Vector2(0, 0);
+        _targetImage.rectTransform.DOSizeDelta(cellSize, 0.5f).SetEase(Ease.OutBounce).OnComplete(() => endAnimation?.Invoke());
+    }
+
+    public void WrongAnswerAnimation()
+    {
+        _targetImage.rectTransform.DOShakePosition(0.5f, 10);
+    }
+    
+    private void ShowCellAnimation(Vector2 cellSize)
+    {
+        _rectTransform.sizeDelta = new Vector2(0, 0);
+        _rectTransform.DOSizeDelta(cellSize, 0.5f).SetEase(Ease.OutBounce);
+    }
+
+    private void CalcSizeTargetImage(float width, float height)
     {
         bool isVerticalImage = width < height;
         
-        float size = _rectTransform.rect.width - 20 - 20;
+        float size = _targetImage.rectTransform.rect.width;
         float calcSizeImage = size * (isVerticalImage ? width / height : height / width);
-        return isVerticalImage ? new Vector2(calcSizeImage, size) : new Vector2(size, calcSizeImage);
+
+        _targetImage.rectTransform.SetSizeWithCurrentAnchors(isVerticalImage ? RectTransform.Axis.Horizontal : RectTransform.Axis.Vertical, calcSizeImage);
     }
 }

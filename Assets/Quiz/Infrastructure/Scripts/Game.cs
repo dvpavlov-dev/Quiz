@@ -35,7 +35,7 @@ namespace Quiz.Infrastructure
         {
             _states = new Dictionary<Type, IState>
             {
-                [typeof(StartGame)] = new StartGame(this, gameProcess),
+                [typeof(StartGame)] = new StartGame(this, gameProcess, userInterfaceController),
                 [typeof(EndGame)] = new EndGame(this, userInterfaceController),
             };
         }
@@ -56,21 +56,30 @@ namespace Quiz.Infrastructure
     {
         private readonly GameStateMachine _gameStateMachine;
         private readonly IGameProcess _gameProcess;
-        
-        public StartGame(GameStateMachine gameStateMachine, IGameProcess gameProcess)
+        private readonly IUserInterfaceController _userInterfaceController;
+
+        public StartGame(GameStateMachine gameStateMachine, IGameProcess gameProcess, IUserInterfaceController userInterfaceController)
         {
+            _userInterfaceController = userInterfaceController;
             _gameStateMachine = gameStateMachine;
             _gameProcess = gameProcess;
         }
         
         public void Enter()
         {
-            _gameProcess.StartLevel(0);
             _gameProcess.EndLevels += OnEndLevels;
+            _gameProcess.InitGameProcess();
+            _userInterfaceController.HideTitle();
+            
+            _userInterfaceController.HideLoadingScreen(() =>
+            {
+                _gameProcess.StartLevel(0, true);
+            });
         }
 
         private void OnEndLevels()
         {
+            _gameProcess.EndLevels -= OnEndLevels;
             _gameStateMachine.Enter<EndGame>();
         }
     }
@@ -94,8 +103,10 @@ namespace Quiz.Infrastructure
         
         private void OnSelectedRestart()
         {
-            _userInterfaceController.HideRestartView();
-            _gameStateMachine.Enter<StartGame>();
+            _userInterfaceController.HideRestartView(() =>
+            {
+                _userInterfaceController.ShowLoadingScreen(() => _gameStateMachine.Enter<StartGame>());
+            });
         }
     }
 }
