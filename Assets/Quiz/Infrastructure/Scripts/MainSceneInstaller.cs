@@ -7,13 +7,23 @@ namespace Quiz.Infrastructure
     {
         [SerializeField] private CellFactory _cellFactory;
         [SerializeField] private GameProcessController _gameProcess;
+        [SerializeField] private UserInterfaceController _userInterfaceController;
         
         public override void InstallBindings()
         {
             BindCellFactory();
             BindGameProcess();
+            BindUserInterfaceController();
         }
         
+        private void BindUserInterfaceController()
+        {
+            Container
+                .Bind<IUserInterfaceController>()
+                .FromInstance(_userInterfaceController)
+                .AsSingle();
+        }
+
         private void BindGameProcess()
         {
             Container

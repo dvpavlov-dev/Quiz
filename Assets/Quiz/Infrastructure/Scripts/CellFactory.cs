@@ -4,10 +4,10 @@ public class CellFactory : MonoBehaviour, ICellFactory
 {
     [SerializeField] private GameObject _cellPrefab;
     
-    public GameObject CreateCell(Transform parent, Sprite targetImage)
+    public GameObject CreateCell(TableView tableView, Transform parent, CellData cellData)
     {
         GameObject cell = Instantiate(_cellPrefab, parent);
-        cell.GetComponent<CellView>().Init(targetImage);
+        cell.GetComponent<CellView>().Init(tableView, cellData);
         
         return cell;
     }
@@ -15,5 +15,5 @@ public class CellFactory : MonoBehaviour, ICellFactory
 
 public interface ICellFactory
 {
-    public GameObject CreateCell(Transform parent, Sprite targetImage);
+    public GameObject CreateCell(TableView tableView, Transform parent, CellData cellData);
 }

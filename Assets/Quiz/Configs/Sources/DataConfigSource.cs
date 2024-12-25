@@ -15,4 +15,5 @@ public struct CellData
 {
     public string Name;
     public Sprite Image;
+    public bool RotateToVertical;
 }
