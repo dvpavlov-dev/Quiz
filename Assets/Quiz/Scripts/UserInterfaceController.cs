@@ -18,7 +18,7 @@ public class UserInterfaceController : MonoBehaviour, IUserInterfaceController
             _titleView.ShowTitleAnimation();
         }
         
-        _titleView.SetTitle($"Find {titleText}");
+        _titleView.SetTitle($"Найди {titleText}");
     }
 
     public void HideTitle()
@@ -59,6 +59,15 @@ public class UserInterfaceController : MonoBehaviour, IUserInterfaceController
     public void OnSelectedRestart()
     {
         SelectedRestart?.Invoke();
+    }
+
+    public void OnSelectedExit()
+    {
+    #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+    #else
+        Application.Quit();
+    #endif
     }
 }
 
