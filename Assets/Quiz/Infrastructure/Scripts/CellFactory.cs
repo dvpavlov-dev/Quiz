@@ -4,10 +4,10 @@ public class CellFactory : MonoBehaviour, ICellFactory
 {
     [SerializeField] private GameObject _cellPrefab;
     
-    public GameObject CreateCell(TableView tableView, Transform parent, CellData cellData, Vector2 cellSize, bool isShowAnimationNeeded)
+    public GameObject CreateCell(TableView tableView, Transform parent, CellData cellData, Vector2 cellSize)
     {
         GameObject cell = Instantiate(_cellPrefab, parent);
-        cell.GetComponent<CellView>().Init(tableView, cellData, cellSize, isShowAnimationNeeded);
+        cell.GetComponent<CellView>().Init(tableView, cellData, cellSize);
         
         return cell;
     }
@@ -15,5 +15,5 @@ public class CellFactory : MonoBehaviour, ICellFactory
 
 public interface ICellFactory
 {
-    public GameObject CreateCell(TableView tableView, Transform parent, CellData cellData, Vector2 cellSize, bool isShowAnimationNeeded);
+    public GameObject CreateCell(TableView tableView, Transform parent, CellData cellData, Vector2 cellSize);
 }

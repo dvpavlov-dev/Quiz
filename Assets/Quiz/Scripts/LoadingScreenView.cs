@@ -1,28 +1,24 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class LoadingScreenView : MonoBehaviour
 {
-    [SerializeField] private Image _loadingScreenImage;
-
-    private bool _isLoadingScreenShowing;
+    [SerializeField] private CanvasGroup _canvasGroup;
     
     public void ShowLoadingScreen(Action animationEnded)
     {
-        _isLoadingScreenShowing = true;
-        _loadingScreenImage.DOFade(1, 1f).OnComplete(() => animationEnded?.Invoke());
+        _canvasGroup.DOFade(1, 1f).OnComplete(() => animationEnded?.Invoke());
     }
 
     public void HideLoadingScreen(Action animationEnded)
     {
-        if (!_isLoadingScreenShowing)
+        if (_canvasGroup.alpha < 1)
         {
             animationEnded?.Invoke();
             return;
         }
         
-        _loadingScreenImage.DOFade(0, 1f).OnComplete(() => animationEnded?.Invoke());
+        _canvasGroup.DOFade(0, 1f).OnComplete(() => animationEnded?.Invoke());
     }
 }

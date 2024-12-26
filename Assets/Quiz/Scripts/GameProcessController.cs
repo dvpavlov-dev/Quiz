@@ -15,7 +15,7 @@ public class GameProcessController : MonoBehaviour, IGameProcess
 
     private readonly List<string> _previousRightAnswer = new List<string>();
     
-    private int _currentLevel = 0;
+    private int _currentLevel;
     private string _rightAnswer;
 
     [Inject]
@@ -35,15 +35,15 @@ public class GameProcessController : MonoBehaviour, IGameProcess
         _currentLevel = levelIndex;
         Level currentLevel = _config.Levels[_currentLevel];
 
-        InitTableView(currentLevel, isStartGame);
+        InitTableView(currentLevel);
         GeneratedRightAnswer();
         
         _userInterfaceController.SetTitle(_rightAnswer, isStartGame);
     }
     
-    private void InitTableView(Level currentLevel, bool isStartGame)
+    private void InitTableView(Level currentLevel)
     {
-        _tableView.CreateTable(currentLevel.TableWidth, currentLevel.TableHeight, currentLevel.DataConfig, isStartGame);
+        _tableView.CreateTable(currentLevel.TableWidth, currentLevel.TableHeight, currentLevel.DataConfig);
         _tableView.SelectedCell = OnSelectedCell;
     }
 

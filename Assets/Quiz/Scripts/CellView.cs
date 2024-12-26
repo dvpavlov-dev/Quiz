@@ -13,7 +13,7 @@ public class CellView : MonoBehaviour
     private string _id;
     private TableView _tableView;
 
-    public void Init(TableView tableView, CellData cellData, Vector2 cellSize, bool isShowAnimationNeeded)
+    public void Init(TableView tableView, CellData cellData, Vector2 cellSize)
     {
         _tableView = tableView;
         _id = cellData.Name;
@@ -25,11 +25,7 @@ public class CellView : MonoBehaviour
         }
 
         CalcSizeTargetImage(cellData.Image.rect.width, cellData.Image.rect.height);
-        
-        if(isShowAnimationNeeded)
-        {
-            ShowCellAnimation(cellSize);
-        }
+        ShowCellAnimation(cellSize);
     }
 
     public void OnSelectedCell()
@@ -37,21 +33,21 @@ public class CellView : MonoBehaviour
         _tableView.OnSelectedCell(this);
     }
 
-    public void CorrectAnswerAnimation(Action endAnimation)
+    public void CorrectAnswerAnimation(Action animationEnded)
     {
         Vector2 cellSize = _targetImage.rectTransform.sizeDelta;
         _targetImage.rectTransform.sizeDelta = new Vector2(0, 0);
-        _targetImage.rectTransform.DOSizeDelta(cellSize, 0.5f).SetEase(Ease.OutBounce).OnComplete(() => endAnimation?.Invoke());
+        _targetImage.rectTransform.DOSizeDelta(cellSize, 0.5f).SetEase(Ease.OutBounce).OnComplete(() => animationEnded?.Invoke());
     }
 
     public void WrongAnswerAnimation()
     {
-        _targetImage.rectTransform.DOShakePosition(0.5f, 10);
+        _targetImage.rectTransform.DOShakePosition(0.5f, 5);
     }
     
     private void ShowCellAnimation(Vector2 cellSize)
     {
-        _rectTransform.sizeDelta = new Vector2(0, 0);
+        _rectTransform.DOSizeDelta(new Vector2(0, 0), 0);
         _rectTransform.DOSizeDelta(cellSize, 0.5f).SetEase(Ease.OutBounce);
     }
 

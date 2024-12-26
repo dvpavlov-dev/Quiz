@@ -25,7 +25,7 @@ public class TableView : MonoBehaviour
         _cellFactory = cellFactory;
     }
     
-    public void CreateTable(int width, int height, DataConfigSource dataConfig, bool isStartGame)
+    public void CreateTable(int width, int height, DataConfigSource dataConfig)
     {
         _dataConfig = dataConfig;
         _rectTransform.sizeDelta = new Vector2(_gridLayout.cellSize.x * width, _gridLayout.cellSize.y * height);
@@ -40,7 +40,7 @@ public class TableView : MonoBehaviour
             if (!_usedIndexes.Contains(generateIndex))
             {
                 _usedIndexes.Add(generateIndex);
-                CreateCell(dataConfig, generateIndex, isStartGame);
+                CreateCell(dataConfig, generateIndex);
                 i++;
             }
         }
@@ -54,9 +54,9 @@ public class TableView : MonoBehaviour
         return _dataConfig.Data[_usedIndexes[generateIndex]].Name;
     }
     
-    private void CreateCell(DataConfigSource dataConfig, int generateIndex, bool isShowAnimationNeeded)
+    private void CreateCell(DataConfigSource dataConfig, int generateIndex)
     {
-        GameObject cell = _cellFactory.CreateCell(this, gameObject.transform, dataConfig.Data[generateIndex], _gridLayout.cellSize, isShowAnimationNeeded);
+        GameObject cell = _cellFactory.CreateCell(this, gameObject.transform, dataConfig.Data[generateIndex], _gridLayout.cellSize);
         _cells.Add(cell);
     }
 
