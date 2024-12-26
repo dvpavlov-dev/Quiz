@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -67,14 +68,27 @@ namespace Quiz.Infrastructure
         
         public void Enter()
         {
-            _gameProcess.EndLevels += OnEndLevels;
-            _gameProcess.InitGameProcess();
-            _userInterfaceController.HideTitle();
-            
-            _userInterfaceController.HideLoadingScreen(() =>
+            _userInterfaceController.ShowLoadingScreen(() =>
             {
-                _gameProcess.StartLevel(0, true);
+                _gameProcess.EndLevels += OnEndLevels;
+                _gameProcess.InitGameProcess();
+                _userInterfaceController.HideTitle();
+
+                SimulateLoadingProcess(() =>
+                {
+                    _userInterfaceController.HideLoadingScreen(() =>
+                    {
+                        _gameProcess.StartLevel(0, true);
+                    });
+                });
             });
+        }
+
+        private async void SimulateLoadingProcess(Action loadingEnded)
+        {
+            await Task.Delay(2000);
+                
+            loadingEnded?.Invoke();
         }
 
         private void OnEndLevels()
@@ -105,7 +119,7 @@ namespace Quiz.Infrastructure
         {
             _userInterfaceController.HideRestartView(() =>
             {
-                _userInterfaceController.ShowLoadingScreen(() => _gameStateMachine.Enter<StartGame>());
+                _gameStateMachine.Enter<StartGame>();
             });
         }
     }

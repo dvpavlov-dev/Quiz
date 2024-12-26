@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class RestartView : MonoBehaviour
 {
-    [SerializeField] private CanvasGroup _canvasGroup; 
+    [SerializeField] private CanvasGroup _canvasGroup;
+    [SerializeField] private AudioSource _audioSource;
 
     public void ShowRestartView()
     {
+        _audioSource.Play();
+        
         _canvasGroup.alpha = 0;
         _canvasGroup.DOFade(1, 0.5f);
     }

@@ -11,7 +11,9 @@ public class LoadingScreenView : MonoBehaviour
     
     public void ShowLoadingScreen(Action animationEnded)
     {
+        _canvasGroup.alpha = 0;
         _canvasGroup.DOFade(1, 1f).OnComplete(() => animationEnded?.Invoke());
+        
         _rotateTween ??= _spinnerTransform
             .DORotate(new Vector3(360, 0, 0), 1f, RotateMode.FastBeyond360)
             .SetRelative(true)
@@ -23,13 +25,7 @@ public class LoadingScreenView : MonoBehaviour
     public void HideLoadingScreen(Action animationEnded)
     {
         _rotateTween.Pause();
-        
-        if (_canvasGroup.alpha < 1)
-        {
-            animationEnded?.Invoke();
-            return;
-        }
-        
+
         _canvasGroup.DOFade(0, 1f).OnComplete(() => animationEnded?.Invoke());
     }
 }

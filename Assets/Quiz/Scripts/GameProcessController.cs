@@ -9,6 +9,7 @@ public class GameProcessController : MonoBehaviour, IGameProcess
     public Action EndLevels { get; set; }
     
     [SerializeField] private TableView _tableView;
+    [SerializeField] private AudioSource _audioSource;
 
     private LevelsConfigSource _config;
     private IUserInterfaceController _userInterfaceController;
@@ -33,12 +34,16 @@ public class GameProcessController : MonoBehaviour, IGameProcess
     public void StartLevel(int levelIndex, bool isStartGame)
     {
         _currentLevel = levelIndex;
-        Level currentLevel = _config.Levels[_currentLevel];
 
-        InitTableView(currentLevel);
+        InitTableView(_config.Levels[_currentLevel]);
         GeneratedRightAnswer();
         
         _userInterfaceController.SetTitle(_rightAnswer, isStartGame);
+
+        if (isStartGame)
+        {
+            _audioSource.Play();
+        }
     }
     
     private void InitTableView(Level currentLevel)
@@ -68,12 +73,12 @@ public class GameProcessController : MonoBehaviour, IGameProcess
     {
         if (_rightAnswer == cell.Id)
         {
-            cell.CorrectAnswerAnimation(EndLevel);
+            cell.CorrectAnswerReaction(EndLevel);
             
         }
         else
         {
-            cell.WrongAnswerAnimation();
+            cell.WrongAnswerReaction();
         }
     }
 

@@ -7,7 +7,11 @@ public class CellView : MonoBehaviour
 {
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private Image _targetImage;
-
+    
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _correctAnswerSound;
+    [SerializeField] private AudioClip _wrongAnswerSound;
+        
     public string Id => _id;
     
     private string _id;
@@ -33,15 +37,21 @@ public class CellView : MonoBehaviour
         _tableView.OnSelectedCell(this);
     }
 
-    public void CorrectAnswerAnimation(Action animationEnded)
+    public void CorrectAnswerReaction(Action animationEnded)
     {
+        _audioSource.clip = _correctAnswerSound;
+        _audioSource.Play();
+        
         Vector2 cellSize = _targetImage.rectTransform.sizeDelta;
         _targetImage.rectTransform.sizeDelta = new Vector2(0, 0);
         _targetImage.rectTransform.DOSizeDelta(cellSize, 0.5f).SetEase(Ease.OutBounce).OnComplete(() => animationEnded?.Invoke());
     }
 
-    public void WrongAnswerAnimation()
+    public void WrongAnswerReaction()
     {
+        _audioSource.clip = _wrongAnswerSound;
+        _audioSource.Play();
+        
         _targetImage.rectTransform.DOShakePosition(0.5f, 5);
     }
     
