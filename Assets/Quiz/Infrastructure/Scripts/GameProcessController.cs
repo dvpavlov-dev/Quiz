@@ -17,7 +17,7 @@ namespace Quiz.Infrastructure
         private LevelsConfigSource _config;
         private IUserInterfaceController _userInterfaceController;
 
-        private readonly List<string> _previousRightAnswer = new List<string>();
+        private readonly List<string> _previousRightAnswer = new();
     
         private int _currentLevel;
         private string _rightAnswer;

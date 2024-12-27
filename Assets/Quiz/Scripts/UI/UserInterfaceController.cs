@@ -66,7 +66,7 @@ namespace Quiz.UI
         public void OnSelectedExit()
         {
     #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
+            UnityEditor.EditorApplication.isPlaying = false;
     #else
             Application.Quit();
     #endif

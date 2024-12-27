@@ -73,7 +73,6 @@ namespace Quiz.UI
         
             foreach (GameObject cell in _cells)
             {
-                // Destroy(cell);
                 _cellFactory.DisposeCell(cell);
             }
         

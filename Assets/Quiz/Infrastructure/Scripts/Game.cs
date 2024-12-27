@@ -21,7 +21,7 @@ namespace Quiz.Infrastructure
         
         private void Start()
         {
-            GameStateMachine gameStateMachine = new GameStateMachine(_gameProcess, _userInterfaceController);
+            GameStateMachine gameStateMachine = new (_gameProcess, _userInterfaceController);
             gameStateMachine.Enter<StartGame>();
         }
     }
