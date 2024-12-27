@@ -20,5 +20,5 @@ MonoBehaviour:
     TableWidth: 3
     TableHeight: 2
   - DataConfig: {fileID: 11400000, guid: 18175030500e44c48afc55c9c02f55bd, type: 2}
-    TableWidth: 3
+    TableWidth: 5
     TableHeight: 3

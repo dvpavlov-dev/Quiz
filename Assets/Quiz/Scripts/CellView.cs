@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +16,7 @@ public class CellView : MonoBehaviour
     public string Id => _id;
     
     private string _id;
-    private TableView _tableView;
+    [CanBeNull] private TableView _tableView;
 
     public void Init(TableView tableView, CellData cellData, Vector2 cellSize)
     {
@@ -23,18 +24,18 @@ public class CellView : MonoBehaviour
         _id = cellData.Name;
         _targetImage.sprite = cellData.Image;
 
-        if (cellData.RotateToVertical)
-        {
-            _targetImage.rectTransform.rotation = Quaternion.Euler(0,0,-90);
-        }
+        _targetImage.rectTransform.rotation = Quaternion.Euler(0, 0, cellData.RotateToVertical ? -90 : 0);
 
-        CalcSizeTargetImage(cellData.Image.rect.width, cellData.Image.rect.height);
+        CalcSizeTargetImage(cellSize.x, cellData.Image.rect.width, cellData.Image.rect.height);
         ShowCellAnimation(cellSize);
     }
 
     public void OnSelectedCell()
     {
-        _tableView.OnSelectedCell(this);
+        if(_tableView != null)
+        {
+            _tableView.OnSelectedCell(this);
+        }
     }
 
     public void CorrectAnswerReaction(Action animationEnded)
@@ -61,13 +62,19 @@ public class CellView : MonoBehaviour
         _rectTransform.DOSizeDelta(cellSize, 0.5f).SetEase(Ease.OutBounce);
     }
 
-    private void CalcSizeTargetImage(float width, float height)
+    private void CalcSizeTargetImage(float cellSize, float width, float height)
     {
+        float padding = cellSize * 0.2f;
         bool isVerticalImage = width < height;
         
-        float size = _targetImage.rectTransform.rect.width;
-        float calcSizeImage = size * (isVerticalImage ? width / height : height / width);
+        float size = cellSize - padding * 2;
+        float calcSizeImage = (size - size * (isVerticalImage ? width / height : height / width)) / 2 + padding;
 
-        _targetImage.rectTransform.SetSizeWithCurrentAnchors(isVerticalImage ? RectTransform.Axis.Horizontal : RectTransform.Axis.Vertical, calcSizeImage);
+        _targetImage.rectTransform.offsetMin = 
+            isVerticalImage ? new Vector2(calcSizeImage, padding) : new Vector2(padding, calcSizeImage);
+        
+        _targetImage.rectTransform.offsetMax = 
+            isVerticalImage ? new Vector2(-calcSizeImage, -padding) : new Vector2(-padding, -calcSizeImage);
+        
     }
 }

@@ -69,7 +69,8 @@ public class TableView : MonoBehaviour
         
         foreach (GameObject cell in _cells)
         {
-            Destroy(cell);
+            // Destroy(cell);
+            _cellFactory.DisposeCell(cell);
         }
         
         _cells.Clear();
